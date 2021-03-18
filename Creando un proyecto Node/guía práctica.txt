@@ -1,0 +1,25 @@
+##Guía práctica de Setup Proyecto
+Imitando lo que viste en el reciente tutorial, realiza los pasos a continuación.  
+
+Recuerda que, para comprobar cuánto has aprendido, al final del curso otros participantes medirán tu avance en estas prácticas. 
+
+Instala Nodejs. 
+Instala express y express generator. 
+Crea un proyecto de red de bicicletas utilizando express generator y utilizando el view engine pug. 
+Levanta el servidor en el puerto default (3000), o configúralo si corresponde, y asegúrate de ver el mensaje de bienvenida a Express. 
+Vincula tu proyecto con el repositorio de Bitbucket creado previamente. 
+Haz un commit con el mensaje de setup del proyecto.
+
+
+##Guía práctica de Configurar template HTML
+Imitando lo que viste en el reciente tutorial, realiza los pasos a continuación.  
+
+Recuerda que, para comprobar cuánto has aprendido, al final del curso otros participantes medirán tu avance en estas prácticas. 
+
+Visita el sitio Boostrap Themes:    https://startbootstrap.com/themes/
+Descarga grayscale (  https://startbootstrap.com/themes/grayscale/  ) u otro template que te guste. 
+Configura en tu proyecto creado en la práctica anterior. 
+Utiliza el sitio https://html-to-pug.com/ para pasar del html al pug. Puedes usar otra herramienta similar, si te resulta más cómodo. 
+Levanta el servidor y revisa que se vea correctamente, comparándolo con la versión original. 
+Realiza un commit con los cambios realizados. 
+  
