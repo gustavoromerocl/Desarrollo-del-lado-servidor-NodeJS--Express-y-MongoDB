@@ -39,3 +39,16 @@ Crea los métodos de listado, creación, eliminación y actualización de las bi
 Revisa el proceso entero de listado, carga y demás operaciones realizadas. 
 Realiza un commit con los cambios realizados. 
   
+
+##Guía práctica de API Bicicletas
+Imitando lo que viste en el reciente tutorial, realiza los pasos a continuación.  
+
+Recuerda que, para comprobar cuánto has aprendido, al final del curso otros participantes medirán tu avance en estas prácticas. 
+
+Crea una carpeta para guardar las API dentro de controller y otra carpeta dentro de router. 
+Crea el controller de bicicleta para manejar tu API de creación, actualización, listado y eliminación. 
+Crea las rutas de bicicleta para tu API de creación, actualización, listado y eliminación. 
+Crea los métodos en el controller de listado, creación, actualización, listado y eliminación. 
+Instala Postman para testear tu API (https://www.getpostman.com). 
+Revisa cada endpoint de tu API utilizando Postman. 
+Realiza un commit con los cambios realizados. 
