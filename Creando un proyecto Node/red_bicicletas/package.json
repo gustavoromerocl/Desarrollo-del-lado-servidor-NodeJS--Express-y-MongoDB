@@ -13,7 +13,9 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "pug": "2.0.0-beta11"
+    "node-fetch": "^2.6.1",
+    "pug": "2.0.0-beta11",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "jasmine": "^3.8.0",

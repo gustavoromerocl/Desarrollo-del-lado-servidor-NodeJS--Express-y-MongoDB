@@ -33,8 +33,3 @@ exports.bicicleta_update = function(req, res){
     })
 }
 
-exports.bicicleta_update_post = function(req, res){
-
-
-    res.redirect('/bicicletas');
-}
