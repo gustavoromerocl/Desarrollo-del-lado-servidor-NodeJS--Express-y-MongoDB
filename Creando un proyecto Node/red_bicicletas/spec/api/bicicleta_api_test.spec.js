@@ -1,4 +1,64 @@
 /**https://www.npmjs.com/package/node-fetch */
+
+const mongoose = require('mongoose');
+const Bicicleta = require('../../models/bicicleta');
+const fetch = require('node-fetch');
+
+const base_url = 'http://localhost:3000/api/bicicletas';
+
+describe('Bicicletas API', () => {
+    beforeEach((done) => {
+        const mongoDB = 'mongodb://localhost/testdb'
+        mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true })
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error'));
+        db.once('open', () => {
+            console.log('We are connected to test database');
+            done();
+        });
+    });
+
+    afterEach((done) => {
+        Bicicleta.deleteMany({}, (err, success) => {
+            if(err) console.log(err);
+            mongoose.disconnect(err);
+            done();
+        });
+    });
+
+    describe("GET BICICLETAS /", () => {
+        it("log connection", (done) => {
+            fetch(base_url)
+                .then(response => response.json())
+                .then(data => expect(Object.keys(data).length).toBe(0))
+                done();
+        });
+    });
+
+
+    describe("POST BICICLETAS /create ", () => {
+        it('Agregar bicicleta', (done) => {
+            var bici = {code: 1, color: "rojo", modelo: "urbana", latitude: -34, longitud: -54};
+            fetch(`${base_url}/create`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(bici), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then((response) => response.json())
+              .then(data => expect(Object.keys(data).length).toBe(1))
+              done();
+        });
+    });
+
+
+});
+
+
+
+
+/*
 var Bicicleta = require('../../models/bicicleta');
 const fetch = require('node-fetch');
 const server = require('../../bin/www')
@@ -108,3 +168,12 @@ describe('Bicicleta API', () => {
 
     
 })
+
+*/
+
+
+/**
+Codigo conectado a mongoose 
+
+
+ */
