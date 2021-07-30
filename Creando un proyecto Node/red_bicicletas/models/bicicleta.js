@@ -31,12 +31,17 @@ bicicletaSchema.statics.add = function(aBici, cb){
     return this.create(aBici, cb)
 }
 
-bicicletaSchema.statics.findByCode = function(aCode, cb){
-    return this.findOne({code: aCode}, cb)
+bicicletaSchema.statics.findByID = function(id, cb){
+    return this.findOne({id: id}, cb)
 }
 
-bicicletaSchema.statics.removeByCode = function(aCode, cb){
-    return this.deleteOne({code: aCode}, cb)
+bicicletaSchema.statics.findByCode = function(code, cb){
+    return this.findOne({code: code}, cb)
+}
+
+
+bicicletaSchema.statics.removeById = function(id, cb){
+    return this.deleteOne({id: id}, cb)
 }
 
 

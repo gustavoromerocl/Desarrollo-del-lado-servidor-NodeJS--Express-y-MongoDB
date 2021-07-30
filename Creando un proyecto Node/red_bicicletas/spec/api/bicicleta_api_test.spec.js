@@ -47,11 +47,82 @@ describe('Bicicletas API', () => {
                 }
               })
               .then((response) => response.json())
-              .then(data => expect(Object.keys(data).length).toBe(1))
+              .then(data => {
+                  expect(Object.keys(data).length).toBe(1);
+                  expect(data.bicicleta.code).toEqual(1);
+                  expect(data.bicicleta.color).toEqual("rojo");
+                  expect(data.bicicleta.modelo).toEqual("urbana");
+                })
               done();
         });
     });
 
+    describe('POST BICICLETAS /update', () => {
+        it('Editando bicicleta', (done) => {
+            var bici = {code: 1, color: "rojo", modelo: "urbana", latitude: -34, longitud: -54};
+            var bBici = {code: 1, color: "verde", modelo: "urbana", latitude: -34, longitud: -54};
+            fetch(`${base_url}/create`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(bici), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then((response) => response.json())
+              .then(data => {
+                  expect(Object.keys(data).length).toBe(1);
+                  expect(data.bicicleta.code).toEqual(1);
+                  expect(data.bicicleta.color).toEqual("rojo");
+                  expect(data.bicicleta.modelo).toEqual("urbana");
+                })
+
+            fetch(`${base_url}/update`, {
+                method: 'POST',
+                body: JSON.stringify(bBici),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then(data => {
+                expect(data.bicicleta.color).toEqual("verde");
+                done();
+            })
+        });
+    })
+
+    describe('POST BICICLETAS /delete', () => {
+        it('STATUS 200', (done) => {
+
+            var bici = {code: 1, color: "rojo", modelo: "urbana", latitude: -34, longitud: -54};
+
+            var idBici = {code: 1};
+
+            fetch(`${base_url}/create`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(bici), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then(data => {
+                expect(Object.keys(data).length).toBe(1);
+            })
+  
+            fetch(`${base_url}/delete`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(idBici), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then(data => expect(Object.keys(data).length).toBe(0))
+            done();
+
+        })
+    }) 
 
 });
 
