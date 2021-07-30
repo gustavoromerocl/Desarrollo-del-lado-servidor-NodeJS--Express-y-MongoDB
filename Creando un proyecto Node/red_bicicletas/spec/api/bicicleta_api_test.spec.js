@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 
 const base_url = 'http://localhost:3000/api/bicicletas';
 
-describe('Bicicletas API', () => {
+describe('Testing Bicicletas API', () => {
     beforeEach((done) => {
         const mongoDB = 'mongodb://localhost/testdb'
         mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true })
@@ -21,7 +21,6 @@ describe('Bicicletas API', () => {
     afterEach((done) => {
         Bicicleta.deleteMany({}, (err, success) => {
             if(err) console.log(err);
-            console.log("Ejecutando despues del codigo");
             mongoose.disconnect(err);
             done();
         });
@@ -32,8 +31,8 @@ describe('Bicicletas API', () => {
             fetch(base_url)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    expect(Object.keys(data).length).toBe(0)})
+                    //console.log(data.bicicletas.length);
+                    expect(data.bicicletas.length).toBe(0)})
                 done();
         });
     });
@@ -51,12 +50,51 @@ describe('Bicicletas API', () => {
               })
               .then((response) => response.json())
               .then(data => {
-                console.log(data);  
+                //console.log(data);  
                 expect(Object.keys(data).length).toBe(1)})
               done();
         });
     });
 
+    describe('POST BICICLETAS /update', () => {
+        it('Editando bicicleta', (done) => {
+            var bici = {code: 1, color: "rosa", modelo: "urbana", latitude: -34, longitud: -54};
+            fetch(`${base_url}/update`, {
+                method: 'POST',
+                body: JSON.stringify(bici),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then(data => {
+                expect(data.bicicleta.color).toEqual("rosa");
+                done();
+            });
+        });
+    });
+
+    describe('POST BICICLETAS /delete', () => {
+        it('STATUS 200', (done) => {
+
+            var idBici = {code: 1};
+  
+            fetch(`${base_url}/delete`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(idBici), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => expect(response.status).toEqual(204))
+            fetch(base_url)
+                .then(response => response.json())
+                .then(data => {
+                    //console.log(data.bicicletas.length);
+                    expect(data.bicicletas.length).toBe(0)})
+                done();
+        });
+    });
 
 });
 

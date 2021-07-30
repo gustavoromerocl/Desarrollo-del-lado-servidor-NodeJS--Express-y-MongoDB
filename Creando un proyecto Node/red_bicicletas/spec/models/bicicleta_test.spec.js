@@ -64,7 +64,7 @@ describe('Testing Bicicletas', function(){
                 Bicicleta.add(aBici, function(err, newBici){
                     if (err) console.log(err);
 
-                    const aBici2 = new Bicicleta({code: 1, color: "verde", modelo: "urbana"});
+                    const aBici2 = new Bicicleta({code: 2, color: "verde", modelo: "urbana"});
                     Bicicleta.add(aBici2, function(err, newBici){
                         if (err) console.log(err);
 
@@ -77,6 +77,39 @@ describe('Testing Bicicletas', function(){
                     });
                 });
             });
+        });
+    });
+
+    describe('Bicicleta update', () => {
+        it('Actualiza una bici', (done) => {
+            const bici = new Bicicleta({code: 1, color: "verde", modelo: "urbana"});
+            const nuevoColor = "naranja";
+            Bicicleta.add(bici, function(err, newBici){
+                if (err) console.log(err);
+                Bicicleta.allBicis(function(err, bicis){
+                    bicis[0].color = nuevoColor;
+                    
+                    expect(bicis.length).toEqual(1);
+    
+                    expect(bicis[0].color).toEqual(nuevoColor);
+                    done();
+                    
+                });
+            });
+        });
+    });
+
+    describe('Bicicleta remove', () => {
+        it('eliminar una bici', (done) => {
+            var aBici = new Bicicleta({code: 1, color: "verde", modelo: "urbana"});
+            Bicicleta.add(aBici);
+            
+            Bicicleta.removeByCode(aBici.code);
+
+            Bicicleta.allBicis(function(err, bicis){
+                expect(bicis.length).toBe(0);
+                done();
+            })
         });
     });
 });
