@@ -21,6 +21,7 @@ describe('Bicicletas API', () => {
     afterEach((done) => {
         Bicicleta.deleteMany({}, (err, success) => {
             if(err) console.log(err);
+            console.log("Ejecutando despues del codigo");
             mongoose.disconnect(err);
             done();
         });
@@ -30,7 +31,9 @@ describe('Bicicletas API', () => {
         it("log connection", (done) => {
             fetch(base_url)
                 .then(response => response.json())
-                .then(data => expect(Object.keys(data).length).toBe(0))
+                .then(data => {
+                    console.log(data);
+                    expect(Object.keys(data).length).toBe(0)})
                 done();
         });
     });
@@ -38,7 +41,7 @@ describe('Bicicletas API', () => {
 
     describe("POST BICICLETAS /create ", () => {
         it('Agregar bicicleta', (done) => {
-            var bici = {code: 1, color: "rojo", modelo: "urbana", latitude: -34, longitud: -54};
+            var bici = {code: 1, color: "morado", modelo: "urbana", latitude: -34, longitud: -54};
             fetch(`${base_url}/create`, {
                 method: 'POST', // or 'PUT'
                 body: JSON.stringify(bici), // data can be `string` or {object}!
@@ -47,7 +50,9 @@ describe('Bicicletas API', () => {
                 }
               })
               .then((response) => response.json())
-              .then(data => expect(Object.keys(data).length).toBe(1))
+              .then(data => {
+                console.log(data);  
+                expect(Object.keys(data).length).toBe(1)})
               done();
         });
     });
