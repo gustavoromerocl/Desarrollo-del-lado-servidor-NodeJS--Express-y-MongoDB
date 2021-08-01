@@ -1,0 +1,30 @@
+extends ../layout 
+
+block header-include 
+    link(rel="stylesheet", href="/stylesheets/login.css")
+
+block content 
+    body#LoginForm
+    .container
+        .login-form
+        .main-div
+            .panel
+            if info && info.message
+                div.alert.alert-danger
+                = info.message
+            h2 Login
+            p Por favor, ingrese su email y clave
+            form#Login(action="/login" method='post')
+            .form-group
+                input#username.form-control(type="email" placeholder='Email Addres' name='email')
+            .form-group
+                input#password.form-control(type="password" placeholder='Password' name='password' )
+            .forgot
+                a(href="/login/forgotPassword") Olvidé mi password
+            a(href="/auth/google")  Log In con Google
+            br
+            a(href="/auth/facebook")  Log In con Facebook
+            br
+            button.btn.btn-primary(type='submit') Login
+            
+            a.btn.btn-secondary(href="/usuarios")  Register
