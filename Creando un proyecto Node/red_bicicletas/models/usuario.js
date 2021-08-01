@@ -1,8 +1,12 @@
-//npm install bcrypt --save
+/*
+npm install bcrypt --save
+npm install mongoose-unique-validator --save
+*/
 const mongoose = require('mongoose');
 const Reserva = require('./reserva');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const saltRounds = 10;
 
@@ -22,6 +26,7 @@ const usuarioSchema = new Schema({
         trim: true,
         required: [true, 'El email es obligatorio'],
         lowerCase: true,
+        unique: true,
         validate: [validateEmail, 'Por favor ingrese un email valido'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/]
     },
@@ -37,6 +42,9 @@ const usuarioSchema = new Schema({
     }
 });
 
+usuarioSchema.plugin(uniqueValidator, {message: 'El {PATH} ya existe con otro usuario'})
+
+//Ejecuta un callback antes del metodo save
 usuarioSchema.pre('save', function(next){
     if(this.isModified('password')){
         this.password = bcrypt.hashSync(this.password, saltRounds);
