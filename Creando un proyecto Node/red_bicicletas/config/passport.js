@@ -19,7 +19,7 @@ passport.use(new LocalStrategy(
             //If there is not user with that email
             if(!usuario) return done(null, false, {message: 'Email no existente o incorrecto'});
             //Is password is not valid
-            if (!usuario.validPassword(password)) return done(null, false, {message: 'Password no existente o incorrecto'});
+            if (!usuario.validPassword(password)) return done(null, false, {message: 'Password incorrecto'});
 
             //Everthing is OK. Execute the callaback
             return done(null, usuario)

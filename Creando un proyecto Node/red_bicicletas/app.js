@@ -13,7 +13,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuarios');
 var bicicletasRouter = require('./routes/bicicletas');
 var tokenRouter = require('./routes/token');
-var loginRouter = require('./routes/login');
 var bicicletasAPIRouter = require('./routes/api/bicicletas');
 var usuariosAPIRouter = require('./routes/api/usuarios');
 
@@ -49,6 +48,34 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/login', function(req, res) {
+  res.render('session/login');
+});
+
+app.post('/login', function(req,res, next){
+  passport.authenticate('local', function(err, usuario, info){
+    if (err) return next(err);
+    if (!usuario) return res.render('session/login', {info})
+    req.logIn(usuario, function(err){
+      if(err) next(err);
+      return res.redirect('/');
+    });
+  })(req, res, next);
+});
+
+app.get('/logout', function(req, res){
+  req.logOut();
+  res.redirect('/');
+});
+
+app.get('/forgotPassword', function(req, res){
+
+});
+
+app.post('/forgotPassword', function(req, res){
+
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -57,7 +84,6 @@ app.use('/bicicletas', bicicletasRouter);
 app.use('/api/bicicletas', bicicletasAPIRouter);
 app.use('/api/usuarios', usuariosAPIRouter);
 app.use('/token', tokenRouter);
-app.use('/login', loginRouter);
 
 
 // catch 404 and forward to error handler
