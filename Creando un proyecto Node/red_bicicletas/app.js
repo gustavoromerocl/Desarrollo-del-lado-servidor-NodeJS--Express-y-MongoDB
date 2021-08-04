@@ -117,8 +117,8 @@ app.post('/resetPassword', (req, res)=>{
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/usuarios', usersRouter);
-app.use('/bicicletas', bicicletasRouter);
+app.use('/usuarios', loggedIn, usersRouter);
+app.use('/bicicletas', loggedIn, bicicletasRouter);
 app.use('/api/bicicletas', bicicletasAPIRouter);
 app.use('/api/usuarios', usuariosAPIRouter);
 app.use('/token', tokenRouter);
@@ -139,5 +139,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function loggedIn(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    console.log('user sin loguearse');
+    res.redirect('/login')
+  }
+}
 
 module.exports = app;
