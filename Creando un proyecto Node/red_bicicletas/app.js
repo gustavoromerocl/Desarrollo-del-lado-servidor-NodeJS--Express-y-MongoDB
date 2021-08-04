@@ -8,6 +8,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('./config/passport');
 const session = require('express-session');
+const Usuario =  require('./models/usuario');
+const Token = require('./models/token');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuarios');
@@ -68,13 +70,49 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/forgotPassword', function(req, res){
+app.get('/forgotPassword', (req, res)=>{
+  res.render('session/forgotPassword')
+})
 
-});
+app.post('/forgotPassword', (req, res, next)=>{
+  Usuario.findOne({email: req.body.email}, (err, usuario)=>{
+    if(!usuario) return res.render('session/forgotPassword', {info: {message: 'No existe la clave'}});
+    
+    usuario.resetPassword(err=>{
+      if(err) return next(err);
+      console.log('session/forgotPasswordMessage');
+    })
+    res.render('session/forgotPasswordMessage')
+  })
+})
 
-app.post('/forgotPassword', function(req, res){
+app.get('/resetPassword/:token', (req, res, next)=>{
+  Token.findOne({token: req.params.token}, (err, token)=>{
+    if(!token) return res.status(400).send({type: 'not-verified', msg: 'No existe una clave así'})
 
-});
+    Usuario.findById(token._userId, (err, usuario)=>{
+      if(!usuario) return res.status(400).send({msg: 'No existe un usuario asociado a este password'});
+      res.render('session/resetPassword', {errors: {}, usuario: usuario})
+    })
+  })
+})
+
+app.post('/resetPassword', (req, res)=>{
+  if(req.body.password != req.body.confirm_password) {
+    res.render('session/resetPassword', {errors: {confirm_password: {message: 'No coinciden las contraseñas'}}});
+    return;
+  }
+  Usuario.findOne({email: req.body.email}, (err, usuario)=>{
+    usuario.password = req.body.password;
+    usuario.save(err=>{
+      if(err){
+        res.render('session/resetPassword', {errors: err.errors, usuario: new Usuario});
+      } else {
+        res.redirect('/login')
+      }
+    })
+  })
+})
 
 app.use(express.static(path.join(__dirname, 'public')));
 
