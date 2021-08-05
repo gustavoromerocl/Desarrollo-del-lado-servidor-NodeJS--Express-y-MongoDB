@@ -39,7 +39,9 @@ app.use(session({
 
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://localhost/red_bicicletas';
+//var mongoDB = 'mongodb://localhost/red_bicicletas';
+
+var mongoDB = 'mongodb+srv://admin:9oLnf0TUAqWa88Zn@red-bicicletas.87uqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -124,11 +126,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/token', tokenRouter);
-app.use('/usuarios', loggedIn, usersRouter);
+app.use('/usuarios', usersRouter);
 app.use('/bicicletas', loggedIn, bicicletasRouter);
 app.use('/api/auth', authAPIRouter);
 app.use('/api/bicicletas', validarUsuario, bicicletasAPIRouter);
-app.use('/api/usuarios', validarUsuario, usuariosAPIRouter);
+app.use('/api/usuarios', usuariosAPIRouter);
 
 
 
