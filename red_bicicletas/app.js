@@ -1,6 +1,8 @@
+require('dotenv').config();
 /*
 npm install express-session
 npm install jsonwebtoken
+npm install dotenv
 */
 var createError = require('http-errors');
 var express = require('express');
@@ -41,7 +43,7 @@ var mongoose = require('mongoose');
 
 //var mongoDB = 'mongodb://localhost/red_bicicletas';
 
-var mongoDB = 'mongodb+srv://admin:9oLnf0TUAqWa88Zn@red-bicicletas.87uqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGO_URI;
 mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
