@@ -65,18 +65,20 @@ usuarioSchema.methods.reservar =  function(biciId, desde, hasta, cb){
     reserva.save(cb);
 }
 
+const uri = process.env.NODE_ENV === "production" ? 'https://noderedbicicletas.herokuapp.com' : 'http://localhost:3000';
+
 usuarioSchema.methods.enviar_email_bienvenida = function(cb) {
     const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')})
     const email_destination = this.email;
     token.save((err) => {
       if ( err ) { return console.log(err.message)}
       const mailOptions = {
-        from: 'no-reply@redbicicletas.com',
+        from: 'gandresrp@gmail.com',
         to: email_destination,
         subject: 'Verificacion de cuenta',
         text: 'Hola,\n\n' 
         + 'Por favor, para verificar su cuenta haga click en este link: \n' 
-        + 'http://localhost:3000'
+        + `${uri}`
         + '\/token/confirmation\/' + token.token + '\n'
       }
   
@@ -93,12 +95,12 @@ usuarioSchema.methods.resetPassword =  function(cb){
      token.save(function (err) {
       if (err) {return cb(err)}
       const mailOptions = {
-        from: 'no-reply@redbicicletas.com',
+        from: 'gandresrp@gmail.com',
         to: email_destination,
         subject: 'Reseteo de password de cuenta',
         text: 'Hola,\n\n' 
         + 'Por favor, para resetar el password de su cuenta haga click en este link: \n' 
-        + 'http://localhost:3000'
+        + `${uri}`
         + '\/resetPassword\/' + token.token + '\n'
       }
        mailer.sendMail(mailOptions, function(err){

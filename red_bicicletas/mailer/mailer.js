@@ -3,27 +3,27 @@ https://nodemailer.com/about/
 https://www.npmjs.com/package/nodemailer-sendgrid-transport
 https://ethereal.email/
 */
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const sgTransport = require('nodemailer-sendgrid-transport');
 
-var mailConfig;
-if (process.env.NODE_ENV === 'production' ){
-    // all emails are delivered to destination
-    mailConfig = {
-        host: 'smtp.sendgrid.net',
-        port: 587,
+let mailConfig;
+// ENVIRONMENT HEROKU
+if (process.env.NODE_ENV === "production") {
+    const options = {
         auth: {
-            user: 'raven.johns89@ethereal.email',
-            pass: '8mRAJFKZAW98YXvKvS'
-        }
+            api_key: process.env.SENDGRID_API_SECRET,
+        },
     };
-} else {
-    // all emails are catched by ethereal.email
+    mailConfig = sgTransport(options);
+}
+
+if (process.env.NODE_ENV === "development") {
     mailConfig = {
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: 'raven.johns89@ethereal.email',
-            pass: '8mRAJFKZAW98YXvKvS'
+            user: process.env.ethereal_user,
+            pass: process.env.ethereal_pwd
         }
     };
 }
