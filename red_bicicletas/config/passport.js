@@ -37,7 +37,9 @@ passport.use(
       },
       function (accessToken, refreshToken, profile, cb) {
         //find the user if doesnt exist create it
-        User.findOneOrCreateByGoogle(profile, function (err, user) {
+        Usuario.findOneOrCreateByGoogle(profile, function (err, user) {
+          console.log("profile", profile);
+          console.log("profile", profile.emails);
           return cb(err, user);
         });
       }

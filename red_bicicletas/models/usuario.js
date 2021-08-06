@@ -111,41 +111,39 @@ usuarioSchema.methods.resetPassword =  function(cb){
   })
 }
 
-usuarioSchema.statics.findOneOrCreateByFacebook = function findOneOrCreate(condition, callback) {
-  const self = this;
-  console.log("condition",condition);
-  self.findOne({
-      $or: [
-          { 'facebookId': condition.id }, { 'email': condition.emails[0].value }
-      ]
-  }).then((result) => {
-      if (result) {
-          callback(null,result);
-      } else {
-          console.log('---------------- CONDITION ------------------');
-          console.log(condition);
-          var values = {}
-          values.facebookId = condition.id;
-          values.email = condition.emails[0].value;
-          values.nombre = condition.displayName || 'SIN NOMBRE';
-          values.verificado = true;
-          values.password = crypto.randomBytes(16).toString('hex');
-          console.log('---------------- VALUES----------------------');
-          console.log(values);
+//Method of AuthO Note contidition is the user
+usuarioSchema.statics.findOneOrCreateByGoogle = function findOneOrCreate(
+  condition,
+  cb
+) {
+  const self = this;//is use to don't loose the ref to the user in the other callback
+  console.log("user",condition);
+  console.log("emails",condition.emails);
+  self.findOne(
+    {
+      $or: [{ googleId: condition.id }, { email: condition.emails[0].value }],
+    },
+    (err, result) => {
+      if (result) {// if user exist 
+        cb(err, result);//execute the callback with the user
+      } else { //success
+        let values = {};
+        values.id = condition.id;
+        values.email = condition.emails[0].value;
+        values.nombre = condition.displayName || "Sin nombre";
+        values.verificado = true;
+        values.password = condition.emails[0].value + "pass";// improve this 
 
-          self.create(values)
-              .then((result) => {
-                  return callback(null,result);
-              })
-              .catch((err) => {
-                console.log(err);
-                return callback(err);
-              })
+        //we create the user
+        self.create(values, (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          return cb(err, result);
+        });
       }
-  }).catch((err) => {
-      callback(err);
-      console.error(err);
-  })
+    }
+  );
 }
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

@@ -161,8 +161,11 @@ app.use('/googleb93787816995bf60', function(req, res){
 //Login google
 app.get('/auth/google',
   passport.authenticate('google', { scope: [
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/plus.profile.emails.read']}));
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+  })
+);
 
 app.get('/auth/google/callback',passport.authenticate('google', {
     successRedirect: '/',
