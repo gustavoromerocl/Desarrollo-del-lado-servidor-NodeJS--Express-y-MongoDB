@@ -152,9 +152,11 @@ app.use('privacy_policy', function(req, res){
   res.sendFile('public/policy_privacy.html');
 });
 
+/*
 app.use('/googleb93787816995bf60', function(req, res){
   res.sendFile('public/googleb93787816995bf60.html');
 });
+*/
 
 //Login google
 app.get('/auth/google',
