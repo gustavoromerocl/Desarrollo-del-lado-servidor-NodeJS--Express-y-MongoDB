@@ -30,7 +30,7 @@ if(process.env.NODE_ENV === 'development' ) {
   //we save the session in the server (Note. If the server trun off the session is lost)
    store = new session.MemoryStore
 } else {
-  store = new MongoDBStore({
+  store = new mongoDBStore({
     uri: process.env.MONGO_URI,
     collection: 'sessions'
   });
