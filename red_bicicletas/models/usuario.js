@@ -65,7 +65,7 @@ usuarioSchema.methods.reservar =  function(biciId, desde, hasta, cb){
     reserva.save(cb);
 }
 
-const uri = process.env.NODE_ENV === "production" ? 'https://noderedbicicletas.herokuapp.com' : 'http://localhost:3000';
+const uri = process.env.NODE_ENV === "production" ? 'https://noderedbicicletas.herokuapp.com' : `localhost:${process.env.PORT}`;
 
 usuarioSchema.methods.enviar_email_bienvenida = function(cb) {
     const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')})
