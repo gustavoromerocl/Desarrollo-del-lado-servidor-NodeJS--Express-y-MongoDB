@@ -1,3 +1,4 @@
+//require('newrelic'); PARA OBTENER LA LICENCIA ES NECESARIO REGISTRAR UNA TARJETA
 require('dotenv').config();
 /*
 npm install express-session
