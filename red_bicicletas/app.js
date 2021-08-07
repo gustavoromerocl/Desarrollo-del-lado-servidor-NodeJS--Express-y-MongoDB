@@ -142,7 +142,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/token', tokenRouter);
-app.use('/usuarios', usersRouter);
+app.use('/usuarios', loggedIn, usersRouter);
 app.use('/bicicletas', loggedIn, bicicletasRouter);
 app.use('/api/auth', authAPIRouter);
 app.use('/api/bicicletas', validarUsuario, bicicletasAPIRouter);

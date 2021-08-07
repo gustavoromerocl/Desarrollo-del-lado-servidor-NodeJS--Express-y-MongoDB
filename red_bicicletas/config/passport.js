@@ -4,7 +4,9 @@ http://www.passportjs.org/
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookTokenStrategy = require('passport-facebook-token');
+
 const Usuario = require('../models/usuario');
 
 passport.use(new LocalStrategy(
@@ -45,6 +47,21 @@ passport.use(
       }
     )
 );
+
+//FACEBOOK AUTH
+passport.use(new FacebookTokenStrategy({
+  clientID: process.env.FACEBOOK_ID,
+  clientSecret: process.env.FACEBOOK_SECRET,
+  fbGraphVersion: 'v3.0'
+  }, function (accessToken, refreshToken, profile, done) {
+    console.log("FaceToken--profile", profile);
+    Usuario.findOneOrCreateByFacebook(profile, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      done(null, user);
+    });
+}));
 
 //serialize the id of User
 passport.serializeUser(function (user, cb) {
