@@ -15,7 +15,7 @@ exports.bicicleta_create = function(req, res){
             code: req.body.code,
             color: req.body.color,
             modelo: req.body.modelo,
-            //ubicacion: [req.body.lat || 0, req.body.lng || 0]
+            ubicacion: [req.body.latitude, req.body.longitud]
         }
     );
     //bici.ubicacion = [req.body.latitude, req.body.longitud];
